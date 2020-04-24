@@ -11,7 +11,9 @@ module.exports = {
     parser: 'babel-eslint'
   },
   rules: {
-    "camelcase": ["error", { "allow": ["aa_bb"] }],
+    "camelcase": ["error", {
+      "properties": "never"
+    }],
     "indent": ["off", 2],
     'generator-star-spacing': 'off',
     "space-before-function-paren": 0,

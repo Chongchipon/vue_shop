@@ -48,22 +48,22 @@
           @tab-click="tabClicked"
         >
           <el-tab-pane label="基本信息" name="0">
-            <el-form-item label="商品名称" prop="goodsName">
-              <el-input v-model="addForm.goodsName"></el-input>
+            <el-form-item label="商品名称" prop="goods_name">
+              <el-input v-model="addForm.goods_name"></el-input>
             </el-form-item>
-            <el-form-item label="商品价格" prop="goodsPrice">
-              <el-input v-model="addForm.goodsPrice" type="number"></el-input>
+            <el-form-item label="商品价格" prop="goods_price">
+              <el-input v-model="addForm.goods_price" type="number"></el-input>
             </el-form-item>
-            <el-form-item label="商品重量" prop="goodsWeight">
-              <el-input v-model="addForm.goodsWeight"></el-input>
+            <el-form-item label="商品重量" prop="goods_weight">
+              <el-input v-model="addForm.goods_weight"></el-input>
             </el-form-item>
-            <el-form-item label="商品数量" prop="goodsNumber" type="number">
-              <el-input v-model="addForm.goodsNumber"></el-input>
+            <el-form-item label="商品数量" prop="goods_number" type="number">
+              <el-input v-model="addForm.goods_number"></el-input>
             </el-form-item>
-            <el-form-item label="商品分类" prop="goodsCat">
+            <el-form-item label="商品分类" prop="goods_cat">
               <el-cascader
                 expand-trigger="hover"
-                v-model="addForm.goodsCat"
+                v-model="addForm.goods_cat"
                 :options="catelist"
                 :props="cateProps"
                 @change="handleChange"
@@ -138,11 +138,11 @@ export default {
       activeIndex: '0',
       // 添加商品表单数据对象
       addForm: {
-        goodsName: '',
-        goodsPrice: '',
-        goodsWeight: '',
-        goodsNumber: '',
-        goodsCat: [],
+        goods_name: '',
+        goods_price: '',
+        goods_weight: '',
+        goods_number: '',
+        goods_cat: [],
         // 图片数组
         pics: [],
         // 商品内容详情
@@ -150,19 +150,19 @@ export default {
         attrs: []
       },
       addFormRules: {
-        goodsName: [
+        goods_name: [
           { required: true, message: '请输入商品名称', trigger: 'blur' }
         ],
-        goodsPrice: [
+        goods_price: [
           { required: true, message: '请输入商品价格', trigger: 'blur' }
         ],
-        goodsWeight: [
+        goods_weight: [
           { required: true, message: '请输入商品重量', trigger: 'blur' }
         ],
-        goodsNumber: [
+        goods_number: [
           { required: true, message: '请输入商品数量', trigger: 'blur' }
         ],
-        goodsCat: [
+        goods_cat: [
           { required: true, message: '请选择商品分类', trigger: 'blur' }
         ]
       },
@@ -200,13 +200,13 @@ export default {
     },
     // 级联选择器选中项变化会触发函数
     handleChange() {
-      console.log(this.addForm.goodsCat)
-      if (this.addForm.goodsCat.length !== 3) {
-        this.addForm.goodsCat = []
+      console.log(this.addForm.goods_cat)
+      if (this.addForm.goods_cat.length !== 3) {
+        this.addForm.goods_cat = []
       }
     },
     beforeTabLeave(activeName, oldActiveName) {
-      if (oldActiveName === '0' && this.addForm.goodsCat.length !== 3) {
+      if (oldActiveName === '0' && this.addForm.goods_cat.length !== 3) {
         this.$message.error('请先选择商品分类')
         return false
       }
@@ -220,7 +220,7 @@ export default {
 
         console.log(res.data)
         res.data.forEach(item => {
-          item.attrVals =
+          item.attr_vals =
             item.attr_vals.length === 0 ? []
               : item.attr_vals.split(' ')
         })
@@ -272,15 +272,15 @@ export default {
         // 执行添加的业务逻辑
         // lodash cloneDeep(obj)
         const form = _.cloneDeep(this.addForm)
-        form.goodsCat = form.goodsCat.join(',')
+        form.goods_cat = form.goods_cat.join(',')
         // 处理动态参数
         this.manyTableData.forEach(item => {
-          const newInfo = { attrId: item.attr_id, attrValue: item.attrVals.join(' ') }
+          const newInfo = { attr_id: item.attr_id, attr_value: item.attr_vals.join(' ') }
           this.addForm.attrs.push(newInfo)
         })
         // 处理静态属性
         this.onlyTableData.forEach(item => {
-          const newInfo = { attrId: item.attr_id, attrValue: item.attrVals }
+          const newInfo = { attr_id: item.attr_id, attr_value: item.attr_vals }
           this.addForm.attrs.push(newInfo)
         })
         form.attrs = this.addForm.attrs
@@ -301,8 +301,8 @@ export default {
   },
   computed: {
     cateId() {
-      if (this.addForm.goodsCat.length === 3) {
-        return this.addForm.goodsCat[2]
+      if (this.addForm.goods_cat.length === 3) {
+        return this.addForm.goods_cat[2]
       }
 
       return null
